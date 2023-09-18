@@ -8,4 +8,6 @@ import java.util.List;
 @Service
 public interface ApiServiceGetRegioner {
     List<Region> getRegioner();
+    List<String> getKommuneNavne(String regionKode);
+
 }

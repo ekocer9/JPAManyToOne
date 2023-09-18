@@ -1,13 +1,14 @@
 package com.example.jpamanytoone.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 public class Region {
@@ -18,9 +19,16 @@ public class Region {
     private String navn;
     private String href;
 
-    @OneToMany(mappedBy = "region")
+    @OneToMany(mappedBy = "region", cascade = CascadeType.REMOVE)
     @JsonBackReference
     private Set<Kommune> kommuner = new HashSet<>();
+
+    @JsonIgnore
+    public List<String> getKommuneNavne() {
+        List<String> lst = new ArrayList<>();
+        kommuner.forEach((kommune -> lst.add(kommune.getNavn())));
+        return lst;
+    }
 
     public String getKode() {
         return kode;
@@ -45,4 +53,5 @@ public class Region {
     public void setHref(String href) {
         this.href = href;
     }
+
 }

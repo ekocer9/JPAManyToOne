@@ -38,4 +38,12 @@ public class Kommune {
     public void setHref(String href) {
         this.href = href;
     }
+
+    public Region getRegion() {
+        return region;
+    }
+
+    public void setRegion(Region region) {
+        this.region = region;
+    }
 }

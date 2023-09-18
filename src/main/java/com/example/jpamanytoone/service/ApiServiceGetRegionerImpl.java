@@ -11,6 +11,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ApiServiceGetRegionerImpl implements ApiServiceGetRegioner{
@@ -37,5 +38,15 @@ public class ApiServiceGetRegionerImpl implements ApiServiceGetRegioner{
         List<Region> regioner = regionResponse.getBody();
         saveRegioner(regioner);
         return regioner;
+    }
+
+    @Override
+    public List<String> getKommuneNavne(String regionKode) {
+        Optional<Region> reg = regionRepository.findById(regionKode);
+        List<String> navne = new ArrayList<>();
+        if (reg.isPresent()) {
+            navne = reg.get().getKommuneNavne();
+        }
+        return navne;
     }
 }
