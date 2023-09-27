@@ -12,22 +12,35 @@ import java.util.Date;
 public class ControllerExceptionHandler {
 
     @ExceptionHandler(Exception.class)
-    ResponseEntity<ErrorMessage>globalExceptionHandler(Exception ex, WebRequest request) {
+    public ResponseEntity<ErrorMessage>globalExceptionHandler(Exception ex, WebRequest request) {
         ErrorMessage message = new ErrorMessage(
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
                 new Date(),
                 ex.getMessage(),
-                request.getDescription(false));
+                request.getDescription(false)
+        );
         return new ResponseEntity<>(message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    ResponseEntity<ErrorMessage>resourceNotFound(Exception ex, WebRequest request) {
+    public ResponseEntity<ErrorMessage>resourceNotFound(Exception ex, WebRequest request) {
         ErrorMessage message = new ErrorMessage(
                 HttpStatus.NOT_FOUND.value(),
                 new Date(),
                 ex.getMessage(),
-                request.getDescription(false));
+                request.getDescription(false)
+        );
+        return new ResponseEntity<>(message, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(ArithmeticException.class)
+    public ResponseEntity<ErrorMessage>globalArithmeticExceptionHandler(Exception ex, WebRequest request) {
+        ErrorMessage message = new ErrorMessage(
+                HttpStatus.I_AM_A_TEAPOT.value(),
+                new Date(),
+                "Nu dividerede du lige med 0 " + ex.getMessage(),
+                request.getDescription(false)
+        );
         return new ResponseEntity<>(message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
