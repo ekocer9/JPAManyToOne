@@ -1,5 +1,6 @@
 package com.example.jpamanytoone.controller;
 
+import com.example.jpamanytoone.exception.ResourceNotFoundException;
 import com.example.jpamanytoone.model.Kommune;
 import com.example.jpamanytoone.model.Region;
 import com.example.jpamanytoone.repository.KommuneRepository;
@@ -27,6 +28,13 @@ public class KommuneRestController {
         List<Kommune> lstKommuner = apiServiceGetKommuner.getKommuner();
         return lstKommuner;
     }
+
+    @GetMapping("/kommunenavn{navn}")
+    public ResponseEntity<Kommune> getKommuneByName(@PathVariable String name) {
+        Kommune kommune = kommuneRepository.findKommuneByNavn(name).orElseThrow(() -> new ResourceNotFoundException("Kommune ikke fundet med navn = " + name ));
+        return new ResponseEntity<>(kommune, HttpStatus.OK);
+    }
+
 
     @GetMapping("/kommuner")
     public List<Kommune> getKommune() {
